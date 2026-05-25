@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-//agrego la importación de librerías de db
+#agrego la importación de librerías de db
 import os
 import dj_database_url
 
