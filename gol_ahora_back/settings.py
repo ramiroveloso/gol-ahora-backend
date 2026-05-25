@@ -197,3 +197,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Evita que Django rompa o mude peticiones POST/PUT si el front omite la barra final
+APPEND_SLASH = False
+
