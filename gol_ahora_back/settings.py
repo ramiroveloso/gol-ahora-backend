@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+#agrego la importación de librerías de db
+import os
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +29,11 @@ SECRET_KEY = 'django-insecure-=3=(9ot(i7246gf%^isck=wvi5rwi^qo=+ep*7*-retnz25)(q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "gol-ahora-backend-1.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -97,13 +105,25 @@ WSGI_APPLICATION = 'gol_ahora_back.wsgi.application'
 #     }
 # }
 
-# SQLite (desarrollo local)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# =========================================================================
+# CONFIGURACIÓN DE BASE DE DATOS INTELIGENTE (LOCAL VS PRODUCCIÓN)
+# =========================================================================
+if os.environ.get('DATABASE_URL'):
+    # Si detecta la variable en Render, se conecta directo a Postgres en Neon
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
+    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+    DATABASES['default']['CONN_MAX_AGE'] = 600
+else:
+    # Si tus compañeros corren el proyecto local en su PC mediante db.sqlite3
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+# =========================================================================
 
 
 # Custom User Model
@@ -154,13 +174,19 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:5173',
 ]
 
+CSRF_TRUSTED_ORIGINS = ["https://gol-ahora-backend-1.onrender.com"]
 
-# Django REST Framework
+# Django REST Framework — Configuración Optimizada para React
 REST_FRAMEWORK = {
+    # Cambiamos IsAuthenticated por AllowAny por defecto, para que las vistas
+    # públicas (Registro, Login, ver Canchas) funcionen sin estar logueado.
+    # Después, en las vistas privadas (Reservar, Pagar), el grupo le pone el candado encima.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
+    # Habilitamos tanto la autenticación por Token (para React) como por Sesión (para pruebas de Swagger)
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -185,3 +211,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Evita que Django rompa o mude peticiones POST/PUT si el front omite la barra final
+APPEND_SLASH = False
+
