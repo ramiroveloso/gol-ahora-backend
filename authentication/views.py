@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, login, logout
 # pyrefly: ignore [missing-import]
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .models import Usuario, Profesor
 from .serializers import UsuarioSerializer, UsuarioCreateSerializer, ProfesorSerializer, LoginSerializer
@@ -72,3 +74,11 @@ class LogoutView(views.APIView):
     def post(self, request):
         logout(request)
         return Response(status=status.HTTP_200_OK)
+
+
+class GetCSRFToken(views.APIView):
+    permission_classes = [AllowAny]
+
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request, format=None):
+        return Response({'detail': 'CSRF cookie set'})
