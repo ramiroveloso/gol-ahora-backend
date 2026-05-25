@@ -160,7 +160,7 @@ USE_TZ = True
 # CORS — permitir todo en desarrollo
 CORS_ALLOW_ALL_ORIGINS = True
 
-
+CSRF_TRUSTED_ORIGINS = ["https://gol-ahora-backend-1.onrender.com"]
 
 # Django REST Framework — Configuración Optimizada para React
 REST_FRAMEWORK = {
