@@ -145,12 +145,18 @@ USE_TZ = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-# Django REST Framework
+
+# Django REST Framework — Configuración Optimizada para React
 REST_FRAMEWORK = {
+    # Cambiamos IsAuthenticated por AllowAny por defecto, para que las vistas
+    # públicas (Registro, Login, ver Canchas) funcionen sin estar logueado.
+    # Después, en las vistas privadas (Reservar, Pagar), el grupo le pone el candado encima.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
+    # Habilitamos tanto la autenticación por Token (para React) como por Sesión (para pruebas de Swagger)
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
