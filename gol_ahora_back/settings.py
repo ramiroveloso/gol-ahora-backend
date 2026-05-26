@@ -148,43 +148,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'es-ar'
-
 TIME_ZONE = 'America/Argentina/Buenos_Aires'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
-# CORS - Permitir frontend local con credenciales
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-]
+# =========================================================================
+# CONFIGURACIÓN DE SEGURIDAD CORS Y CSRF PARA REACT (CORREGIDA)
+# =========================================================================
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
-# CSRF Configuration para React
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
+# Todos los frontends permitidos para comunicarse con la API
+CORS_ALLOWED_ORIGINS = [
+    "https://gol-ahora-frontend.vercel.app",
+    "https://gol-ahora-frontend-f4kvtosqj-ramiro-veloso-s-projects.vercel.app",  # Tu URL de pruebas actual según la consola
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
-CSRF_TRUSTED_ORIGINS = ["https://gol-ahora-backend-1.onrender.com"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://gol-ahora-frontend.vercel.app",
+    "https://gol-ahora-frontend-f4kvtosqj-ramiro-veloso-s-projects.vercel.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+# =========================================================================
+
 
 # Django REST Framework — Configuración Optimizada para React
 REST_FRAMEWORK = {
-    # Cambiamos IsAuthenticated por AllowAny por defecto, para que las vistas
-    # públicas (Registro, Login, ver Canchas) funcionen sin estar logueado.
-    # Después, en las vistas privadas (Reservar, Pagar), el grupo le pone el candado encima.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-    # Habilitamos tanto la autenticación por Token (para React) como por Sesión (para pruebas de Swagger)
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -198,20 +196,13 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API endpoints para el sistema Gol Ahora',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
 }
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = 'static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Evita que Django rompa o mude peticiones POST/PUT si el front omite la barra final
 APPEND_SLASH = False
-
