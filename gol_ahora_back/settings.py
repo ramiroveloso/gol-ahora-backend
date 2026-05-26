@@ -164,15 +164,14 @@ CORS_ALLOW_CREDENTIALS = True
 # Todos los frontends permitidos para comunicarse con la API
 CORS_ALLOWED_ORIGINS = [
     "https://gol-ahora-frontend.vercel.app",
-    "https://gol-ahora-frontend-rcm71ddyq-ramiro-veloso-s-projects.vercel.app",  # Tu rama de pruebas
+    "https://gol-ahora-frontend-f4kvtosqj-ramiro-veloso-s-projects.vercel.app",  # Tu URL de pruebas actual según la consola
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
 
-# Orígenes a los que Django les confiará el paso seguro de datos y tokens
 CSRF_TRUSTED_ORIGINS = [
     "https://gol-ahora-frontend.vercel.app",
-    "https://gol-ahora-frontend-rcm71ddyq-ramiro-veloso-s-projects.vercel.app",
+    "https://gol-ahora-frontend-f4kvtosqj-ramiro-veloso-s-projects.vercel.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
