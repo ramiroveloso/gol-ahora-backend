@@ -76,8 +76,19 @@ class ReservaViewSet(viewsets.ModelViewSet):
         if not nuevo_estado:
             return Response({"detail": "Debe proveer el campo 'estado'."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Validamos que el estado ingresado coincida con los que maneja el modelo
-        if nuevo_estado not in [Reserva.EstadoReserva.PENDIENTE, Reserva.EstadoReserva.CONFIRMADA, Reserva.EstadoReserva.CANCELADA]:
+        # Agregamos todas las variantes posibles de COMPLETADA para blindar el backend
+        estados_validos = [
+            Reserva.EstadoReserva.PENDIENTE, 
+            Reserva.EstadoReserva.CONFIRMADA, 
+            Reserva.EstadoReserva.CANCELADA,
+            'COMPLETADA'
+        ]
+        
+        # Por si el modelo ya tiene la propiedad dinámica definida por tus compañeros
+        if hasattr(Reserva.EstadoReserva, 'COMPLETADA'):
+            estados_validos.append(Reserva.EstadoReserva.COMPLETADA)
+
+        if nuevo_estado not in estados_validos:
             return Response({"detail": "Estado de reserva inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
         reserva.estado = nuevo_estado
