@@ -170,8 +170,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://gol-ahora-frontend.vercel.app",
-    "https://gol-ahora-frontend-f4kvtosqj-ramiro-veloso-s-projects.vercel.app",
+    "https://gol-ahora-frontend.vercel.app", "https://gol-ahora-backend-1.onrender.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
