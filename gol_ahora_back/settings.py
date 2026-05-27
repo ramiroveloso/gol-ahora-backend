@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-#agrego la importación de librerías de db
+# agrego la importación de librerías de db
 import os
 import dj_database_url
 
@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "gol-ahora-backend-1.onrender.com",
+    "gol-ahora-backend-pruebas.onrender.com",  # <-- Autorizado tu backend de pruebas
     "localhost",
     "127.0.0.1",
 ]
@@ -92,18 +93,6 @@ WSGI_APPLICATION = 'gol_ahora_back.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-#
-# PostgreSQL (producción) — descomentar y configurar credenciales:
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'gol_ahora',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 
 # =========================================================================
 # CONFIGURACIÓN DE BASE DE DATOS INTELIGENTE (LOCAL VS PRODUCCIÓN)
@@ -161,19 +150,21 @@ USE_TZ = True
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 
-# Todos los frontends permitidos para comunicarse con la API
+# Todos los frontends permitidos para comunicarse con la API (Sin barras "/" al final)
 CORS_ALLOWED_ORIGINS = [
-    "https://gol-ahora-frontend.vercel.app", "https://gol-ahora-backend-pruebas.onrender.com",
- "https://gol-ahora-backend-pruebas.onrender.com",
-"https://gol-ahora-ramiro-pruebas.vercel.app/",
+    "https://gol-ahora-frontend.vercel.app",
+    "https://gol-ahora-ramiro-pruebas.vercel.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
 
+# Orígenes autorizados para solicitudes seguras y cookies de Django
 CSRF_TRUSTED_ORIGINS = [
-    "https://gol-ahora-frontend.vercel.app", "https://gol-ahora-backend-1.onrender.com",
-"https://gol-ahora-backend-pruebas.onrender.com", 
-"http://localhost:5173",
+    "https://gol-ahora-backend-1.onrender.com",
+    "https://gol-ahora-backend-pruebas.onrender.com",
+    "https://gol-ahora-frontend.vercel.app",
+    "https://gol-ahora-ramiro-pruebas.vercel.app",
+    "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
 # =========================================================================
