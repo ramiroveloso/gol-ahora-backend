@@ -11,6 +11,7 @@ from .models import Cancha
 from .serializers import CanchaSerializer, ReservaResumenSerializer
 from bookings.models import Reserva
 from gol_ahora_back.utils import EpochMillisecondsField
+from rest_framework.permissions import AllowAny
 
 
 class CanchaViewSet(viewsets.ModelViewSet):
@@ -31,7 +32,7 @@ class CanchaDisponibilidadView(views.APIView):
 
     GET /api/fields/canchas/<pk>/disponibilidad/?dia=<epoch_ms>
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, pk):
         # 1. Obtener la cancha (404 automático si no existe)
