@@ -29,13 +29,6 @@ SECRET_KEY = 'django-insecure-=3=(9ot(i7246gf%^isck=wvi5rwi^qo=+ep*7*-retnz25)(q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "gol-ahora-backend-1.onrender.com",
-    "localhost",
-    "127.0.0.1",
-]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -160,22 +153,31 @@ USE_TZ = True
 # =========================================================================
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
+# 1. Permitir que Render aloje el backend de pruebas
+ALLOWED_HOSTS = [
+    'gol-ahora-backend-1.onrender.com',
+    'gol-ahora-backend-pruebas.onrender.com',  # <-- Tu backend de pruebas
+    'localhost',
+    '127.0.0.1',
+]
 
-# Todos los frontends permitidos para comunicarse con la API
+# 2. Permitir que el Frontend de Vercel de pruebas lea los datos (CORS)
 CORS_ALLOWED_ORIGINS = [
-    "https://gol-ahora-frontend.vercel.app",
-    "https://gol-ahora-frontend-f4kvtosqj-ramiro-veloso-s-projects.vercel.app",  # Tu URL de pruebas actual según la consola
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    'https://gol-ahora-frontend.vercel.app',
+    'https://gol-ahora-ramiro-pruebas.vercel.app',  # <-- Tu frontend de pruebas
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
 ]
 
+# 3. Permitir que el Frontend de pruebas mande formularios y logins (CSRF)
 CSRF_TRUSTED_ORIGINS = [
-    "https://gol-ahora-frontend.vercel.app", "https://gol-ahora-backend-1.onrender.com",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    'https://gol-ahora-backend-1.onrender.com',
+    'https://gol-ahora-backend-pruebas.onrender.com',
+    'https://gol-ahora-frontend.vercel.app',
+    'https://gol-ahora-ramiro-pruebas.vercel.app',  # <-- Confianza para pruebas
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
 ]
-# =========================================================================
-
 
 # Django REST Framework — Configuración Optimizada para React
 REST_FRAMEWORK = {
