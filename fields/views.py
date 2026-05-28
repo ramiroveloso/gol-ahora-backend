@@ -31,7 +31,7 @@ class CanchaDisponibilidadView(views.APIView):
 
     GET /api/fields/canchas/<pk>/disponibilidad/?dia=<epoch_ms>
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, pk):
         # 1. Obtener la cancha (404 automático si no existe)
