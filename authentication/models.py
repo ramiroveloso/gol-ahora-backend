@@ -1,17 +1,43 @@
 # pyrefly: ignore [missing-import]
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 
-class ProfesorManager(UserManager):
+class ProfesorManager(BaseUserManager):
     """
-    Manager personalizado para el rol o proxy de Profesores.
-    Hereda de UserManager para garantizar que Django Admin tenga acceso
-    a métodos críticos de autenticación como 'normalize_email'.
+    Manager personalizado para el proxy de Profesores.
+    Hereda de BaseUserManager para garantizar métodos de limpieza (normalize_email)
+    y compatibilidad absoluta con el Django Admin.
     """
     def get_queryset(self):
-        # Mantiene el filtro para que este mánager solo traiga usuarios que sean profesores
         return super().get_queryset().filter(rol='PROFESOR')
+
+
+class UsuarioManager(BaseUserManager):
+    """
+    Manager base para el modelo Usuario personalizado.
+    Garantiza la creación correcta de usuarios y superusuarios con soporte de roles.
+    """
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('rol', 'ADMIN')
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('El superusuario debe tener is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('El superusuario debe tener is_superuser=True.')
+
+        return self.create_user(username, email, password, **extra_fields)
 
 
 class Usuario(AbstractUser):
@@ -33,8 +59,8 @@ class Usuario(AbstractUser):
     telefono = models.CharField(max_length=20, blank=True, null=True, verbose_name='Teléfono')
     dni = models.CharField(max_length=15, unique=True, blank=True, null=True, verbose_name='DNI')
 
-    # Reasignamos el mánager nativo al modelo base para asegurar estabilidad en consultas globales
-    objects = UserManager()
+    # Asignamos el mánager robusto de autenticación customizada
+    objects = UsuarioManager()
 
     class Meta:
         verbose_name = 'Usuario'
