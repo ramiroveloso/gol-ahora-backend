@@ -11,6 +11,7 @@ from .models import Cancha
 from .serializers import CanchaSerializer, ReservaResumenSerializer
 from bookings.models import Reserva
 from gol_ahora_back.utils import EpochMillisecondsField
+from rest_framework.permissions import AllowAny
 
 
 class CanchaViewSet(viewsets.ModelViewSet):
