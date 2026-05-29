@@ -153,10 +153,10 @@ USE_TZ = True
 # =========================================================================
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
-#SESSION_COOKIE_SAMESITE = 'None'  # Permite cookies entre Render y Vercel
-#SESSION_COOKIE_SECURE = True      # Requerido si SameSite es 'None'
-CSRF_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'  # Permite cookies entre Render y Vercel
+SESSION_COOKIE_SECURE = True      # Requerido si SameSite es 'None'
+#CSRF_COOKIE_SAMESITE = 'None'
+#CSRF_COOKIE_SECURE = True
 # 1. Permitir que Render aloje el backend de pruebas
 ALLOWED_HOSTS = [
     'gol-ahora-backend-1.onrender.com',
