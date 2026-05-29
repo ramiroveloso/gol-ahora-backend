@@ -77,7 +77,7 @@ class ReservaViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Debe proveer el campo 'estado'."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Validamos que el estado ingresado coincida con los que maneja el modelo
-        if nuevo_estado not in [Reserva.EstadoReserva.PENDIENTE, Reserva.EstadoReserva.CONFIRMADA, Reserva.EstadoReserva.CANCELADA]:
+        if nuevo_estado not in [Reserva.EstadoReserva.PENDIENTE, Reserva.EstadoReserva.CONFIRMADA, Reserva.EstadoReserva.CANCELADA, Reserva.EstadoReserva.COMPLETADA]:
             return Response({"detail": "Estado de reserva inválido."}, status=status.HTTP_400_BAD_REQUEST)
 
         reserva.estado = nuevo_estado
