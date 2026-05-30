@@ -4,5 +4,4 @@ from django.apps import AppConfig
 class BookingsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'bookings'
-
-verbose_name = 'Gestión de Reservas' 
+    verbose_name = 'Gestión de Reservas' 
