@@ -18,6 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+# CONFIGURACIÓN DE MARCA PARA EL DJANGO ADMIN:
+admin.site.site_header = "Administración Gol Ahora"  # El título dorado grande arriba de todo
+admin.site.site_title = "Gol Ahora Admin"            # El texto que aparece en la pestaña del navegador
+admin.site.index_title = "Panel de Control"          # El subtítulo dentro de la página principal del admin
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # API endpoints
